@@ -12,17 +12,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        
+        //agent.SetDestination(target.transform.position);
     }
     void Update()
     {
-        agent.SetDestination(target.transform.position);
 
-
-
-
-
-        /*if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = sceneCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -31,6 +26,13 @@ public class PlayerController : MonoBehaviour
             {
                 agent.SetDestination(hit.point);
             }
-        }*/
+        }
     }
+
+
+
+
+
+
+
 }
