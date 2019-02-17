@@ -8,15 +8,19 @@ public class AI : MonoBehaviour
     public NavMeshAgent agentAI;
     public NavMeshAgent agentPlayer;
     public GameObject finish;
-    public GameObject test;
+    public GameObject pastMarker;
 
     private Transform lastPos;
 
-    bool moving = false;
+    //GameLogic manager;
+    [SerializeField] GameLogic manager;
+
     private void Start()
     {
+        agentAI.isStopped = true;
+        //manager = GetComponent<GameLogic>();
         //lastPos = agentAI.transform;
-        lastPos = test.transform;
+        lastPos = pastMarker.transform;
     }
 
     private void Update()
@@ -29,12 +33,11 @@ public class AI : MonoBehaviour
 
     }
 
-    private void Travel()
+    private void Travel() // todo implement player avoidence
     {
         if (!agentAI.hasPath)
         {
             agentAI.SetDestination(finish.transform.position);
-            moving = true;
         }
         else
         {
@@ -43,8 +46,9 @@ public class AI : MonoBehaviour
             {
                 //print("STOP");
                 agentAI.isStopped = true;
-                test.transform.position = agentAI.transform.position;
-                lastPos = test.transform;
+                pastMarker.transform.position = agentAI.transform.position;
+                lastPos = pastMarker.transform;
+                manager.GetComponent<GameLogic>().PlayerTurn();
             }
         }
     }
@@ -60,6 +64,14 @@ public class AI : MonoBehaviour
         }
 
         return distance; ;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Finish")
+        {
+            print("Game Over. You Lose.");
+        }
     }
 
 }

@@ -12,23 +12,41 @@ public class PlayerController : MonoBehaviour
     public NavMeshAgent agent;
     [SerializeField] GameObject target;
 
-    Rigidbody rigidbody;
+    //Rigidbody rigidbody = new Rigidbody();
 
     [Header("General")]
     [Tooltip("In ms^-1")] [SerializeField] float xControlSpeed = 40f;
     [Tooltip("In ms^-1")] [SerializeField] float zControlSpeed = 40f;
     float xThrow, zThrow;
 
+    private Vector3 lastPos;
+    [SerializeField] int distanceRoll = 5;
+    [SerializeField] float distRollMultiplier = 100;
+    public float distanceTravelled = 0;
+
+    public bool isTurn = false;
+
+    [SerializeField] GameLogic manager;
+
     // Update is called once per frame
 
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        //agent.SetDestination(target.transform.position);
+        //rigidbody = GetComponent<Rigidbody>();
+        //manager = GetComponent<GameLogic>();
+        lastPos = transform.position;
     }
     void Update()
     {
+        //PathfindToMouseClick();
+        if (isTurn)
+        {
+            ProcessInput();
+        }
+    }
 
+    private void PathfindToMouseClick()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = sceneCam.ScreenPointToRay(Input.mousePosition);
@@ -39,13 +57,21 @@ public class PlayerController : MonoBehaviour
                 agent.SetDestination(hit.point);
             }
         }
-        ProcessInput();
     }
 
     private void ProcessInput()
     {
-        ProcessTranslation();
-        // todo fix collision issue with enemy that causes player drift
+        distanceTravelled += Vector3.Distance(transform.position, lastPos);
+
+        if (distanceTravelled <= distanceRoll * distRollMultiplier)
+        {
+            ProcessTranslation();
+            // todo fix collision issue with enemy that causes player drift
+        } else
+        { // prepare for next round
+            lastPos = transform.position;
+            manager.GetComponent<GameLogic>().AITurn();
+        }
     }
 
     private void ProcessTranslation()
@@ -60,4 +86,14 @@ public class PlayerController : MonoBehaviour
 
         transform.position = new Vector3(xPos, transform.position.y, zPos);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print("player triggered");
+        if (other.tag == "Finish")
+        {
+            print("Victory! You win!");
+        }
+    }
+
 }
