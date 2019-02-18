@@ -68,6 +68,7 @@ public class AI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print("AI triggered");
         if (other.tag == "Finish")
         {
             print("Game Over. You Lose.");

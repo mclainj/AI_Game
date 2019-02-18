@@ -22,7 +22,7 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    public void PlayerTurn()
+    public void PlayerTurn() // called at end of AI turn
     {
         // roll dice
         player.GetComponent<PlayerController>().distanceTravelled = 0f; // reset player dist val
@@ -30,7 +30,7 @@ public class GameLogic : MonoBehaviour
         player.GetComponent<PlayerController>().isTurn = true; // start player turn
     }
 
-    public void AITurn()
+    public void AITurn() // called at end of player turn
     {
         // roll dice
         // set AI dice val
