@@ -8,7 +8,8 @@ public class GameLogic : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject AI;
-
+    [SerializeField] GameObject finish;
+    [SerializeField] GameObject gate; //gate1 reference
     public NavMeshSurface stage; //surface.BuildNavMesh() to rebuild navMesh
 
     private int diceRoll;
@@ -34,6 +35,8 @@ public class GameLogic : MonoBehaviour
     {
         // roll dice
         // set AI dice val
+        //AI.GetComponent<AI>().InitializeGateAction();
+        gate.GetComponent<Gate>().ActivateClosestGate(player.transform, finish.transform);
         AI.GetComponent<NavMeshAgent>().isStopped = false;
     }
 
