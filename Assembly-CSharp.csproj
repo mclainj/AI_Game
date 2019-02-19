@@ -63,6 +63,7 @@
     <Compile Include="Assets\AI.cs" />
     <Compile Include="Assets\GameLogic.cs" />
     <Compile Include="Assets\Gate.cs" />
+    <Compile Include="Assets\Oscillator.cs" />
     <Compile Include="Assets\PlayerController.cs" />
     <None Include="Assets\epyphany\ReadMe.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
