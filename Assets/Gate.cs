@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +8,11 @@ public class Gate : MonoBehaviour
     public Camera sceneCam;
     public List<GameObject> gates = new List<GameObject>(); // list of all gates in scene.
     [SerializeField] GameObject shield;
-
+    [SerializeField] Transform finish;
     private GameObject childShield;
     private GameObject childFrame;
+    int layerMask = 1 << 12;
+
     private void Start()
     {
         childShield = transform.GetChild(0).gameObject;
@@ -55,16 +58,26 @@ public class Gate : MonoBehaviour
             float gateTot2 = Vector3.Distance(t2.position, gates[i].transform.position);
             float dist = t1ToGate + gateTot2;
             //distances.Add(dist);
-            if (dist < minDist)
+            if (dist < minDist)// && GateOnWay(t1.position, t2.position, finish.position))
             {
                 minDist = dist;
                 minGateIndex = i;
             }
-            print("gate dist:" + dist.ToString());
+            //print("gate dist:" + dist.ToString());
         }
-        print("Min gate: " + minGateIndex);
-        print(gates[minGateIndex].transform.name);
-        gates[minGateIndex].transform.GetChild(0).gameObject.SetActive(true);
+        RaycastHit hit;
+        if (Physics.Linecast(t1.position, finish.position, out hit, layerMask))
+        {
+            print("Raycast hit " + hit.transform.name);
+            hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            //print("Min gate: " + minGateIndex);
+            //print(gates[minGateIndex].transform.name);
+            gates[minGateIndex].transform.GetChild(0).gameObject.SetActive(true);
+        }
 
     }
 }

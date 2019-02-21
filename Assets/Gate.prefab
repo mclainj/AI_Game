@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1923450992249658021}
   - component: {fileID: 1923450992249658018}
   - component: {fileID: 6651685683864381897}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gate Frame (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 1923450992775209140}
   - component: {fileID: 1923450992775209141}
   - component: {fileID: 1923450992775209138}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gate Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1923450993241205078}
   - component: {fileID: 1923450993241205079}
   - component: {fileID: 195344186}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gate Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 1923450993613403585}
   - component: {fileID: 462446321}
   - component: {fileID: 462446320}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ BoxCollider:
   m_GameObject: {fileID: 1923450993613403614}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.9578338, y: 1, z: 1}
   m_Center: {x: -1.0444701, y: 6.5, z: 0}
@@ -368,5 +368,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneCam: {fileID: 0}
-  gates: []
+  gates:
+  - {fileID: 1923450993613403614}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   shield: {fileID: 1923450993241205077}
+  finish: {fileID: 0}
