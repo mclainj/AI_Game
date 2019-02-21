@@ -78,6 +78,38 @@ public class Gate : MonoBehaviour
             //print(gates[minGateIndex].transform.name);
             gates[minGateIndex].transform.GetChild(0).gameObject.SetActive(true);
         }
+    }
 
+    public void DeactivateClosestGate(Transform t1, Transform t2)
+    {
+        int minGateIndex = 0;
+        float minDist = float.MaxValue;
+        //List<float> distances = new List<float>();
+        for (int i = 0; i < gates.Count; i++)
+        {
+            float t1ToGate = 1.5f * Vector3.Distance(t1.position, gates[i].transform.position);
+            float gateTot2 = Vector3.Distance(t2.position, gates[i].transform.position);
+            float dist = t1ToGate + gateTot2;
+            //distances.Add(dist);
+            if (dist < minDist)// && GateOnWay(t1.position, t2.position, finish.position))
+            {
+                minDist = dist;
+                minGateIndex = i;
+            }
+            //print("gate dist:" + dist.ToString());
+        }
+        RaycastHit hit;
+        if (Physics.Linecast(t1.position, finish.position, out hit, layerMask))
+        {
+            print("Raycast hit " + hit.transform.name);
+            hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(false);
+
+        }
+        else
+        {
+            //print("Min gate: " + minGateIndex);
+            //print(gates[minGateIndex].transform.name);
+            gates[minGateIndex].transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

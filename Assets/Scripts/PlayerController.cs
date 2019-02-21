@@ -93,6 +93,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Finish")
         {
             print("Victory! You win!");
+            transform.GetChild(0).transform.gameObject.SetActive(true);
         }
     }
 

@@ -84,6 +84,7 @@ public class AI : MonoBehaviour
         if (other.tag == "Finish")
         {
             print("Game Over. You Lose.");
+            transform.GetChild(0).transform.gameObject.SetActive(true);
         }
     }
 
@@ -147,11 +148,6 @@ public class AI : MonoBehaviour
             }
         }
         return null;
-    }
-
-    public void ActivateClosestGate()
-    {
-
     }
 
 }

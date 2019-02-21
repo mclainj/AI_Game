@@ -37,6 +37,7 @@ public class GameLogic : MonoBehaviour
         // set AI dice val
         //AI.GetComponent<AI>().InitializeGateAction();
         gate.GetComponent<Gate>().ActivateClosestGate(player.transform, finish.transform);
+        gate.GetComponent<Gate>().DeactivateClosestGate(AI.transform, finish.transform);
         AI.GetComponent<NavMeshAgent>().isStopped = false;
     }
 
