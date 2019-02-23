@@ -20,12 +20,13 @@ public class PlayerController : MonoBehaviour
     float xThrow, zThrow;
 
     private Vector3 lastPos;
-    [SerializeField] int distanceRoll = 5;
+    public int distanceRoll = 5;
     [SerializeField] float distRollMultiplier = 100;
     public float distanceTravelled = 0;
 
-    public bool isTurn = false;
-
+    public bool moveTurn = false;
+    public bool gateTurn = false;
+    public bool changedTurns = false;
     [SerializeField] GameLogic manager;
 
     // Update is called once per frame
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //PathfindToMouseClick();
-        if (isTurn)
+        if (moveTurn)
         {
             ProcessInput();
         }
@@ -69,8 +70,9 @@ public class PlayerController : MonoBehaviour
             // todo fix collision issue with enemy that causes player drift
         } else
         { // prepare for next round
+            moveTurn = false;
             lastPos = transform.position;
-            manager.GetComponent<GameLogic>().AITurn();
+            ChangeTurns();
         }
     }
 
@@ -94,6 +96,15 @@ public class PlayerController : MonoBehaviour
         {
             print("Victory! You win!");
             transform.GetChild(0).transform.gameObject.SetActive(true);
+        }
+    }
+
+    public void ChangeTurns()
+    {
+        if (!changedTurns)
+        {
+            manager.GetComponent<GameLogic>().AITurn();
+            changedTurns = true;
         }
     }
 

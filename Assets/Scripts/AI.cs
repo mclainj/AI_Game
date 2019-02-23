@@ -5,21 +5,26 @@ using UnityEngine;
 using UnityEngine.AI;
 public class AI : MonoBehaviour
 {
-    [SerializeField] int distanceRoll = 5;
+    public int distanceRoll = 5;
+    [SerializeField] int distanceMultiplier = 2;
     public NavMeshAgent agentAI;
     public NavMeshAgent agentPlayer;
     private int gateMask;
 
     public GameObject finish;
     public GameObject pastMarker;
+    public bool changedTurns = false;
 
     private Transform lastPos;
 
     //GameLogic manager;
     [SerializeField] GameLogic manager;
 
+    [SerializeField] GameObject gateControl;
     public bool moveRoll = true;
-    public bool gateRoll = false;
+    public bool gateTurn = false;
+    public bool activateClosest = false;
+    public bool deactivateClosest = false;
     //public bool moveRoll = true;
     [SerializeField] GameObject debugMarker;
 
@@ -38,10 +43,14 @@ public class AI : MonoBehaviour
         //print("Dist between AI & target: " + getPathDistance(agentAI, finish.transform));
         //print("TEST " + getPathDistance(agentAI, test.transform));
         //print("Dist between Player & target: " + getPathDistance(agentPlayer, finish.transform));
-        Travel();
-        if (gateRoll)
+        //Travel();
+        if (gateTurn)
         {
-            GateAction();
+            //    GateAction();
+            MakeGateDecision();
+        } else
+        {
+            Travel();
         }
     }
 
@@ -54,13 +63,17 @@ public class AI : MonoBehaviour
         else
         {
             //print(getPathDistance(agentAI, lastPos) + " / " + distanceRoll);
-            if (getPathDistance(agentAI, lastPos) >= distanceRoll)
+            if (getPathDistance(agentAI, lastPos) >= distanceRoll * distanceMultiplier)
             {
                 //print("STOP");
                 agentAI.isStopped = true;
                 pastMarker.transform.position = agentAI.transform.position;
                 lastPos = pastMarker.transform;
-                manager.GetComponent<GameLogic>().PlayerTurn();
+                if (!changedTurns)
+                {
+                    manager.GetComponent<GameLogic>().PlayerTurn();
+                    changedTurns = true;
+                }
             }
         }
     }
@@ -88,16 +101,38 @@ public class AI : MonoBehaviour
         }
     }
 
-    public void InitializeGateAction()
+    /*public void InitializeGateAction()
     {
         moveRoll = false;
-        gateRoll = true;
+        gateTurn = true;
         // activate gate to block player:
         agentPlayer.isStopped = false;
         agentPlayer.SetDestination(finish.transform.position);
 
+    }*/
+    private void MakeGateDecision()// TODO implement heuristic method here
+    {
+        System.Random rand = new System.Random();
+        int gateDecision = rand.Next(0, 2); // [0,1]; 0->activate, 1->decativate
+        print("Gate decision val in MakeGateDecision was " + gateDecision);
+        if (gateDecision == 1)
+        {
+            //activateClosest = true;
+            gateControl.GetComponent<Gate>().ActivateClosestGate(agentPlayer.transform, finish.transform);
+        }
+        else
+        {
+            //deactivateClosest = true;
+            gateControl.GetComponent<Gate>().DeactivateClosestGate(agentAI.transform, finish.transform);
+        }
+        // change turns
+        if (!changedTurns)
+        {
+            manager.GetComponent<GameLogic>().PlayerTurn();
+            changedTurns = true;
+        }
+        gateTurn = false;
     }
-
 
     private void GateAction() // todo fix occasional incorrect gate assignment
     {
@@ -128,7 +163,7 @@ public class AI : MonoBehaviour
                     {
                         GameObject gateShield = gate.transform.GetChild(0).gameObject;
                         gateShield.SetActive(true);
-                        gateRoll = false;
+                        gateTurn = false;
                     }
                 }
             }

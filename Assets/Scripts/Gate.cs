@@ -12,6 +12,8 @@ public class Gate : MonoBehaviour
     private GameObject childShield;
     private GameObject childFrame;
     int layerMask = 1 << 12;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject AI;
 
     private void Start()
     {
@@ -22,7 +24,18 @@ public class Gate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ToggleShieldDoor();
+        if (player.GetComponent<PlayerController>().gateTurn)
+        {
+            ToggleShieldDoor();
+        } /*else if (AI.GetComponent<AI>().activateClosest)
+        {
+            ActivateClosestGate(player.transform, finish.transform);
+            AI.GetComponent<AI>().activateClosest = false;
+        } else if (AI.GetComponent<AI>().deactivateClosest)
+        {
+            DeactivateClosestGate(AI.transform, finish.transform);
+            AI.GetComponent<AI>().deactivateClosest = false;
+        }*/
     }
 
 
@@ -42,6 +55,8 @@ public class Gate : MonoBehaviour
                 {
                     //this.shield.SetActive(!shield.activeSelf);
                     childShield.SetActive(!childShield.activeSelf);
+                    player.GetComponent<PlayerController>().gateTurn = false;
+                    player.GetComponent<PlayerController>().ChangeTurns(); // possible multiple calls
                 }
             }
         }
@@ -49,6 +64,7 @@ public class Gate : MonoBehaviour
 
     public void ActivateClosestGate(Transform t1, Transform t2)
     {
+        print("Entered activate closest gate");
         int minGateIndex = 0;
         float minDist = float.MaxValue;
         //List<float> distances = new List<float>();
@@ -69,8 +85,14 @@ public class Gate : MonoBehaviour
         if (Physics.Linecast(t1.position, finish.position, out hit, layerMask))
         {
             print("Raycast hit " + hit.transform.name);
-            hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
-
+            if (hit.transform.name == "Gate Shield")
+            {
+                hit.transform.gameObject.SetActive(true);
+            }
+            else
+            {
+                hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -82,6 +104,7 @@ public class Gate : MonoBehaviour
 
     public void DeactivateClosestGate(Transform t1, Transform t2)
     {
+        print("Entered deactivate closest gate");
         int minGateIndex = 0;
         float minDist = float.MaxValue;
         //List<float> distances = new List<float>();
@@ -102,8 +125,14 @@ public class Gate : MonoBehaviour
         if (Physics.Linecast(t1.position, finish.position, out hit, layerMask))
         {
             print("Raycast hit " + hit.transform.name);
-            hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(false);
-
+            if (hit.transform.name == "Gate Shield")
+            {
+                hit.transform.gameObject.SetActive(false);
+            }
+            else
+            {
+                hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(false);
+            }
         }
         else
         {
