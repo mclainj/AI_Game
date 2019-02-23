@@ -14,13 +14,14 @@ public class GameLogic : MonoBehaviour
 
     private int diceRoll;
 
+    CurrentRollUI currentRollUI;
 
     // Start is called before the first frame update
     void Start()
     {
         // Roll Die
-        diceRoll = 5;
-        PlayerTurn();
+        currentRollUI = FindObjectOfType<CurrentRollUI>();
+        PlayerTurn(); // start with player turn
     }
 
 
@@ -29,6 +30,7 @@ public class GameLogic : MonoBehaviour
         // roll dice
         player.GetComponent<PlayerController>().changedTurns = false; // stops mutliple calls of AI turn in player update
         RollDice(player);
+        currentRollUI.UpdatePlayerRoll(diceRoll);
         if (diceRoll < 5)
         {
             player.GetComponent<PlayerController>().distanceTravelled = 0f; // reset player dist val
@@ -43,6 +45,7 @@ public class GameLogic : MonoBehaviour
         // set AI dice val
         AI.GetComponent<AI>().changedTurns = false;
         RollDice(AI);
+        currentRollUI.UpdateAIRoll(diceRoll);
         //AI.GetComponent<AI>().InitializeGateAction();
         //gate.GetComponent<Gate>().ActivateClosestGate(player.transform, finish.transform);
         //gate.GetComponent<Gate>().DeactivateClosestGate(AI.transform, finish.transform);

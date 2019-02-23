@@ -37,7 +37,7 @@ public class Gate : MonoBehaviour
             AI.GetComponent<AI>().deactivateClosest = false;
         }*/
     }
-
+    
 
     private void ToggleShieldDoor()
     {
@@ -62,7 +62,7 @@ public class Gate : MonoBehaviour
         }
     }
 
-    public void ActivateClosestGate(Transform t1, Transform t2)
+    public void ActivateClosestGate(Transform t1, Transform t2) // todo : implement case that gate is already on or off
     {
         print("Entered activate closest gate");
         int minGateIndex = 0;
@@ -87,11 +87,17 @@ public class Gate : MonoBehaviour
             print("Raycast hit " + hit.transform.name);
             if (hit.transform.name == "Gate Shield")
             {
-                hit.transform.gameObject.SetActive(true);
+                if (!hit.transform.gameObject.activeInHierarchy)
+                    hit.transform.gameObject.SetActive(true);
+                else
+                    DeactivateClosestGate(AI.transform, finish.transform);
             }
             else
             {
-                hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
+                if (!hit.transform.gameObject.transform.GetChild(0).transform.gameObject.activeInHierarchy)
+                    hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
+                else
+                    DeactivateClosestGate(AI.transform, finish.transform);
             }
         }
         else
@@ -127,11 +133,17 @@ public class Gate : MonoBehaviour
             print("Raycast hit " + hit.transform.name);
             if (hit.transform.name == "Gate Shield")
             {
-                hit.transform.gameObject.SetActive(false);
+                if (hit.transform.gameObject.activeInHierarchy)
+                    hit.transform.gameObject.SetActive(false);
+                else
+                    ActivateClosestGate(player.transform, finish.transform);
             }
             else
             {
-                hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(false);
+                if (hit.transform.gameObject.transform.GetChild(0).transform.gameObject.activeInHierarchy)
+                    hit.transform.gameObject.transform.GetChild(0).transform.gameObject.SetActive(false);
+                else
+                    ActivateClosestGate(player.transform, finish.transform);
             }
         }
         else

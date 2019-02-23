@@ -78,6 +78,7 @@
     <Compile Include="Assets\Assets\Asset Packs\Standard Assets\NavMeshComponents\Scripts\NavMeshModifier.cs" />
     <Compile Include="Assets\Assets\Asset Packs\Standard Assets\NavMeshComponents\Scripts\NavMeshModifierVolume.cs" />
     <Compile Include="Assets\Assets\Asset Packs\Standard Assets\NavMeshComponents\Scripts\NavMeshSurface.cs" />
+    <Compile Include="Assets\CurrentRollUI.cs" />
     <Compile Include="Assets\Scripts\AI.cs" />
     <Compile Include="Assets\Scripts\GameLogic.cs" />
     <Compile Include="Assets\Scripts\Gate.cs" />
