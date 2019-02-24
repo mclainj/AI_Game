@@ -16,6 +16,7 @@ public class AI : MonoBehaviour
     public bool changedTurns = false;
 
     private Transform lastPos;
+    public Vector3 startingPos;
 
     //GameLogic manager;
     [SerializeField] GameLogic manager;
@@ -33,6 +34,7 @@ public class AI : MonoBehaviour
         agentAI.isStopped = true;
         //manager = GetComponent<GameLogic>();
         //lastPos = agentAI.transform;
+        startingPos = transform.position;
         lastPos = pastMarker.transform;
         gateMask = 1 << NavMesh.GetAreaFromName("Gate");
     }

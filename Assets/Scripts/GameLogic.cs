@@ -8,6 +8,7 @@ public class GameLogic : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject AI;
+    Minotaur minotaur;
     [SerializeField] GameObject finish;
     [SerializeField] GameObject gate; //gate1 reference
     public NavMeshSurface stage; //surface.BuildNavMesh() to rebuild navMesh
@@ -15,11 +16,13 @@ public class GameLogic : MonoBehaviour
     private int diceRoll;
 
     CurrentRollUI currentRollUI;
+   System.Random rand = new System.Random();
 
     // Start is called before the first frame update
     void Start()
     {
         // Roll Die
+        //minotaur = FindObjectOfType<Minotaur>();
         currentRollUI = FindObjectOfType<CurrentRollUI>();
         PlayerTurn(); // start with player turn
     }
@@ -37,6 +40,10 @@ public class GameLogic : MonoBehaviour
                                                                             // set player dice val
             player.GetComponent<PlayerController>().moveTurn = true; // start player turn
         }
+        else if  (diceRoll == 6)
+        {
+            minotaur.playerMinotaur = true;
+        }
     }
 
     public void AITurn() // called at end of player turn
@@ -53,12 +60,16 @@ public class GameLogic : MonoBehaviour
         {
             AI.GetComponent<NavMeshAgent>().isStopped = false;
         }
+        else if (diceRoll == 6)
+        {
+            minotaur.AIMinotaur = true;
+        }
     }
 
     private void RollDice(GameObject player)
     {
-        System.Random rand = new System.Random();
-        diceRoll = rand.Next(1, 6); // generates # from [1,6] | TODO change to 1,7
+        //System.Random rand = new System.Random();
+        diceRoll = rand.Next(1, 6); // generates # from [1,6] | todo change to (1,7) when minotaur implemented
         print(player.transform.name + " rolled " + diceRoll);
         switch (diceRoll)
         {
@@ -91,8 +102,10 @@ public class GameLogic : MonoBehaviour
                     Debug.LogError("Invalid player/AI object in RollDice switch statement. Case gate turn");
                 }
                 break;
-            case 6: 
+            case 6:
                 // minotaur 
+                print(player.name + " rolled minotaur");
+                break;
             default:
                 Debug.LogError("Error in roll dice default statement.");
                 break;

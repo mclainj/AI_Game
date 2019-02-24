@@ -377,3 +377,5 @@ MonoBehaviour:
   - {fileID: 0}
   shield: {fileID: 1923450993241205077}
   finish: {fileID: 0}
+  player: {fileID: 0}
+  AI: {fileID: 0}

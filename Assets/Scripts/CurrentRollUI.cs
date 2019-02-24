@@ -4,15 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CurrentRollUI : MonoBehaviour
 {
-    string playerRoll, AIRoll;
+    string playerRoll, AIRoll = "";
     string playerText = "Player Rolled:\n";
     string AIText = "\nAI Rolled:\n";
-    Text rollText;
+    [SerializeField] Text rollText;
     
     // Start is called before the first frame update
     void Start()
     {
-        rollText = GetComponent<Text>();
         UpdateRollText();
     }
 
@@ -21,6 +20,9 @@ public class CurrentRollUI : MonoBehaviour
         if (roll == 5)
         {
             playerRoll = "Gate";
+        } else if (roll == 6)
+        {
+            playerRoll = "Minotaur";
         }
         else
         {
@@ -34,6 +36,9 @@ public class CurrentRollUI : MonoBehaviour
         if (roll == 5)
         {
             AIRoll = "Gate";
+        } else if (roll == 6)
+        {
+            AIRoll = "Minotaur";
         }
         else
         {

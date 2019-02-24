@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("In ms^-1")] [SerializeField] float zControlSpeed = 40f;
     float xThrow, zThrow;
 
+    public Vector3 startingPos;
     private Vector3 lastPos;
     public int distanceRoll = 5;
     [SerializeField] float distRollMultiplier = 100;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        startingPos = transform.position;
         //rigidbody = GetComponent<Rigidbody>();
         //manager = GetComponent<GameLogic>();
         lastPos = transform.position;
