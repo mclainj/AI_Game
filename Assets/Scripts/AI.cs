@@ -28,6 +28,7 @@ public class AI : MonoBehaviour
     public bool deactivateClosest = false;
     //public bool moveRoll = true;
     [SerializeField] GameObject debugMarker;
+    [SerializeField] GameOverUI gameOverUI;
 
     private void Start()
     {
@@ -100,18 +101,10 @@ public class AI : MonoBehaviour
         {
             print("Game Over. You Lose.");
             transform.GetChild(0).transform.gameObject.SetActive(true);
+            gameOverUI.UpdateDefeat();
         }
     }
 
-    /*public void InitializeGateAction()
-    {
-        moveRoll = false;
-        gateTurn = true;
-        // activate gate to block player:
-        agentPlayer.isStopped = false;
-        agentPlayer.SetDestination(finish.transform.position);
-
-    }*/
     private void MakeGateDecision()// TODO implement heuristic method here
     {
         System.Random rand = new System.Random();

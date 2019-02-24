@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public bool gateTurn = false;
     public bool changedTurns = false;
     [SerializeField] GameLogic manager;
+    [SerializeField] GameOverUI gameOverUI;
 
     // Update is called once per frame
 
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
         {
             print("Victory! You win!");
             transform.GetChild(0).transform.gameObject.SetActive(true);
+            gameOverUI.UpdateVictory();
         }
     }
 

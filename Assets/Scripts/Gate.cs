@@ -51,7 +51,8 @@ public class Gate : MonoBehaviour
                 print("Hit: " + hit.transform.name);
 
                 //if (hit.transform.name == "Gate Frame")
-                if (hit.transform.gameObject == childFrame)
+                GameObject objHit = hit.transform.gameObject;
+                if (objHit == gameObject|| objHit == childFrame)
                 {
                     //this.shield.SetActive(!shield.activeSelf);
                     childShield.SetActive(!childShield.activeSelf);
