@@ -9,11 +9,11 @@ public class Gate : MonoBehaviour
     public List<GameObject> gates = new List<GameObject>(); // list of all gates in scene.
     [SerializeField] GameObject shield;
     [SerializeField] Transform finish;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject AI;
     private GameObject childShield;
     private GameObject childFrame;
     int layerMask = 1 << 12;
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject AI;
 
     private void Start()
     {
@@ -75,7 +75,7 @@ public class Gate : MonoBehaviour
             float gateTot2 = Vector3.Distance(t2.position, gates[i].transform.position);
             float dist = t1ToGate + gateTot2;
             //distances.Add(dist);
-            if (dist < minDist)// && GateOnWay(t1.position, t2.position, finish.position))
+            if (dist < minDist)
             {
                 minDist = dist;
                 minGateIndex = i;
@@ -114,14 +114,12 @@ public class Gate : MonoBehaviour
         print("Entered deactivate closest gate");
         int minGateIndex = 0;
         float minDist = float.MaxValue;
-        //List<float> distances = new List<float>();
         for (int i = 0; i < gates.Count; i++)
         {
             float t1ToGate = 1.5f * Vector3.Distance(t1.position, gates[i].transform.position);
             float gateTot2 = Vector3.Distance(t2.position, gates[i].transform.position);
             float dist = t1ToGate + gateTot2;
-            //distances.Add(dist);
-            if (dist < minDist)// && GateOnWay(t1.position, t2.position, finish.position))
+            if (dist < minDist)
             {
                 minDist = dist;
                 minGateIndex = i;

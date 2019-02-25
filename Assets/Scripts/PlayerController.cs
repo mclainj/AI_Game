@@ -7,12 +7,16 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameLogic manager;
+    [SerializeField] GameOverUI gameOverUI;
+    [SerializeField] float distRollMultiplier = 100;
+    [SerializeField] GameObject target;
 
     public Camera sceneCam;
     public NavMeshAgent agent;
-    [SerializeField] GameObject target;
 
-    //Rigidbody rigidbody = new Rigidbody();
+    public int distanceRoll = 5;
+    public float distanceTravelled = 0;
 
     [Header("General")]
     [Tooltip("In ms^-1")] [SerializeField] float xControlSpeed = 40f;
@@ -21,28 +25,19 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 startingPos;
     private Vector3 lastPos;
-    public int distanceRoll = 5;
-    [SerializeField] float distRollMultiplier = 100;
-    public float distanceTravelled = 0;
 
     public bool moveTurn = false;
     public bool gateTurn = false;
     public bool changedTurns = false;
-    [SerializeField] GameLogic manager;
-    [SerializeField] GameOverUI gameOverUI;
-
-    // Update is called once per frame
 
     private void Start()
     {
         startingPos = transform.position;
-        //rigidbody = GetComponent<Rigidbody>();
-        //manager = GetComponent<GameLogic>();
         lastPos = transform.position;
     }
     void Update()
     {
-        //PathfindToMouseClick();
+        //PathfindToMouseClick(); // for debugging purposes
         if (moveTurn)
         {
             ProcessInput();
@@ -69,9 +64,9 @@ public class PlayerController : MonoBehaviour
 
         if (distanceTravelled <= distanceRoll * distRollMultiplier)
         {
-            ProcessTranslation();
-            // todo fix collision issue with enemy that causes player drift
-        } else
+            ProcessTranslation(); // todo fix collision issue with enemy that causes player drift
+        }
+        else
         { // prepare for next round
             moveTurn = false;
             lastPos = transform.position;

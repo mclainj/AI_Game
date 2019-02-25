@@ -5,39 +5,37 @@ using UnityEngine;
 using UnityEngine.AI;
 public class AI : MonoBehaviour
 {
-    public int distanceRoll = 5;
+    public int distanceRoll = 5; // overwritten by GameLogic dice roll
     [SerializeField] int distanceMultiplier = 2;
+    [SerializeField] GameLogic manager;
+    [SerializeField] GameObject gateControl;
+    [SerializeField] GameObject debugMarker;
+    [SerializeField] GameOverUI gameOverUI;
+
     public NavMeshAgent agentAI;
     public NavMeshAgent agentPlayer;
-    private int gateMask;
+    //private int gateMask;
 
     public GameObject finish;
     public GameObject pastMarker;
     public bool changedTurns = false;
 
-    private Transform lastPos;
     public Vector3 startingPos;
+    private Transform lastPos;
 
-    //GameLogic manager;
-    [SerializeField] GameLogic manager;
-
-    [SerializeField] GameObject gateControl;
     public bool moveRoll = true;
     public bool gateTurn = false;
-    public bool activateClosest = false;
-    public bool deactivateClosest = false;
-    //public bool moveRoll = true;
-    [SerializeField] GameObject debugMarker;
-    [SerializeField] GameOverUI gameOverUI;
+    //public bool activateClosest = false;
+    //public bool deactivateClosest = false;
+
+    
 
     private void Start()
     {
         agentAI.isStopped = true;
-        //manager = GetComponent<GameLogic>();
-        //lastPos = agentAI.transform;
         startingPos = transform.position;
         lastPos = pastMarker.transform;
-        gateMask = 1 << NavMesh.GetAreaFromName("Gate");
+        //gateMask = 1 << NavMesh.GetAreaFromName("Gate");
     }
 
     private void Update()
@@ -105,19 +103,17 @@ public class AI : MonoBehaviour
         }
     }
 
-    private void MakeGateDecision()// TODO implement heuristic method here
-    {
+    private void MakeGateDecision()// TODO implement heuristic method 
+    {                              // for activation vs deactivation here
         System.Random rand = new System.Random();
         int gateDecision = rand.Next(0, 2); // [0,1]; 0->activate, 1->decativate
         print("Gate decision val in MakeGateDecision was " + gateDecision);
         if (gateDecision == 1)
         {
-            //activateClosest = true;
             gateControl.GetComponent<Gate>().ActivateClosestGate(agentPlayer.transform, finish.transform);
         }
         else
         {
-            //deactivateClosest = true;
             gateControl.GetComponent<Gate>().DeactivateClosestGate(agentAI.transform, finish.transform);
         }
         // change turns
@@ -129,7 +125,7 @@ public class AI : MonoBehaviour
         gateTurn = false;
     }
 
-    private void GateAction() // todo fix occasional incorrect gate assignment
+    /*private void GateAction() // todo fix occasional incorrect gate assignment
     {
         NavMeshHit hit;
         // find closest gate on path for player
@@ -147,13 +143,6 @@ public class AI : MonoBehaviour
                     if (gate != null)
                         print("Intersecting Object name: " + gate.name);
                     debugMarker.transform.position = hit.position;
-                    /*if (gate.name == "Gate Frame" || gate.name == "Gate Frame (1)")
-                    {
-                        gate = gate.transform.parent.gameObject; // update gate to parent
-                        GameObject gateShield = gate.transform.GetChild(0).gameObject; // get child shield
-                        gateShield.SetActive(true);
-                        //gateRoll = false;
-                    }*/
                     if (gate != null)
                     {
                         GameObject gateShield = gate.transform.GetChild(0).gameObject;
@@ -164,9 +153,9 @@ public class AI : MonoBehaviour
             }
         }
         agentPlayer.isStopped = true;
-    }
+    }*/
 
-
+    /*
     private GameObject identifyGate(Collider[] intersectingObjects)
     {
         GameObject collidedObj;
@@ -178,6 +167,6 @@ public class AI : MonoBehaviour
             }
         }
         return null;
-    }
+    }*/
 
 }

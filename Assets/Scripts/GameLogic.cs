@@ -8,7 +8,7 @@ public class GameLogic : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject AI;
-    Minotaur minotaur;
+    //Minotaur minotaur;
     [SerializeField] GameObject finish;
     [SerializeField] GameObject gate; //gate1 reference
     public NavMeshSurface stage; //surface.BuildNavMesh() to rebuild navMesh
@@ -16,7 +16,7 @@ public class GameLogic : MonoBehaviour
     private int diceRoll;
 
     CurrentRollUI currentRollUI;
-   System.Random rand = new System.Random();
+    System.Random rand = new System.Random();
 
     // Start is called before the first frame update
     void Start()
@@ -40,35 +40,29 @@ public class GameLogic : MonoBehaviour
                                                                             // set player dice val
             player.GetComponent<PlayerController>().moveTurn = true; // start player turn
         }
-        else if  (diceRoll == 6)
+        /*else if  (diceRoll == 6)
         {
             minotaur.playerMinotaur = true;
-        }
+        }*/
     }
 
     public void AITurn() // called at end of player turn
     {
-        // roll dice
-        // set AI dice val
         AI.GetComponent<AI>().changedTurns = false;
         RollDice(AI);
         currentRollUI.UpdateAIRoll(diceRoll);
-        //AI.GetComponent<AI>().InitializeGateAction();
-        //gate.GetComponent<Gate>().ActivateClosestGate(player.transform, finish.transform);
-        //gate.GetComponent<Gate>().DeactivateClosestGate(AI.transform, finish.transform);
         if (diceRoll < 5)
         {
             AI.GetComponent<NavMeshAgent>().isStopped = false;
         }
-        else if (diceRoll == 6)
+        /*else if (diceRoll == 6)
         {
             minotaur.AIMinotaur = true;
-        }
+        }*/
     }
 
     private void RollDice(GameObject player)
     {
-        //System.Random rand = new System.Random();
         diceRoll = rand.Next(1, 6); // generates # from [1,6] | todo change to (1,7) when minotaur implemented
         print(player.transform.name + " rolled " + diceRoll);
         switch (diceRoll)
